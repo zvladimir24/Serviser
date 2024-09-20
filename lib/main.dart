@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:serviser/bloc/login_bloc/login_bloc.dart';
@@ -18,10 +19,13 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  debugPrint('Loading .env file...');
+  await dotenv.load(fileName: ".env");
+  debugPrint('Loaded .env file successfully.');
+
   await Supabase.initialize(
-    url: 'https://fxzlpdxnnbyyciqwxzsa.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4emxwZHhubmJ5eWNpcXd4enNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUyODE5NjAsImV4cCI6MjA0MDg1Nzk2MH0.iY685nE2VCYhHgA399OvpJo9gVjpT6X6EOCxPRqQYRc',
+    url: dotenv.env['SUPABASE_URL'] ?? '',
+    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
   );
   setupLocator();
 
@@ -48,9 +52,8 @@ Future<String> _getInitialRoute() async {
 }
 
 void initSupabase() async {
-  const String supabaseUrl = 'https://fxzlpdxnnbyyciqwxzsa.supabase.co';
-  const String supabaseAnonKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4emxwZHhubmJ5eWNpcXd4enNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUyODE5NjAsImV4cCI6MjA0MDg1Nzk2MH0.iY685nE2VCYhHgA399OvpJo9gVjpT6X6EOCxPRqQYRc';
+  String supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
+  String supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
   final client = SupabaseClient(supabaseUrl, supabaseAnonKey);
 
   debugPrint('***** Supabase init completed: $client');

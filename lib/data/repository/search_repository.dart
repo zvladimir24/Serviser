@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:serviser/data/api/dio_client.dart';
 import 'package:serviser/models/fsqr_places_model.dart';
@@ -21,7 +22,7 @@ class SearchRepository {
 
     // Headers for Foursquare API
     final Map<String, String> headers = {
-      'Authorization': 'fsq3Usap2FEy6CVTFUFJWXwOJiUoGzJ9C8mPEZxgkk1IvSM=',
+      'Authorization': dotenv.env['FOURSQUARE_API_KEY'] ?? '',
       'Accept': 'application/json',
     };
 
