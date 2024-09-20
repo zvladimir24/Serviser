@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serviser/bloc/sign_out_bloc/sign_out_bloc.dart';
 import 'package:serviser/bloc/sign_out_bloc/sign_out_bloc_event.dart';
 import 'package:serviser/bloc/sign_out_bloc/sign_out_bloc_state.dart';
+import 'package:serviser/presentation/widgets/my_search_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -37,6 +38,10 @@ class HomeScreen extends StatelessWidget {
         },
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: MySearchBar(),
+            ),
             const Padding(
               padding: EdgeInsets.only(top: 40),
               child: Center(

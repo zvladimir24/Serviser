@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:serviser/bloc/login_bloc/login_bloc.dart';
+import 'package:serviser/bloc/search_bloc/search_bloc.dart';
 import 'package:serviser/bloc/sign_out_bloc/sign_out_bloc.dart';
 import 'package:serviser/bloc/sign_up_bloc/sign_up_bloc.dart';
 import 'package:serviser/getIt/service_locator.dart';
 import 'package:serviser/presentation/home_screen.dart';
 import 'package:serviser/presentation/login_screen.dart';
+import 'package:serviser/presentation/search_result_screen.dart';
 import 'package:serviser/presentation/sign_up_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -118,6 +120,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => GetIt.instance<SignOutBloc>(),
         ),
+        BlocProvider(
+          create: (context) => GetIt.instance<SearchBloc>(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -130,6 +135,7 @@ class _MyAppState extends State<MyApp> {
           '/sign_up': (context) => const SignUpScreen(),
           '/login': (context) => const LoginScreen(),
           '/home_screen': (context) => const HomeScreen(),
+          '/search_result_screen': (context) => const SearchResultScreen(),
         },
         initialRoute: widget.initialRoute,
       ),
