@@ -19,7 +19,7 @@ class MySearchBar extends StatelessWidget {
       radius: 10000,
       limit: 10,
     ));
-    Navigator.pushReplacementNamed(context, '/search_result_screen');
+    Navigator.pushNamed(context, '/search_result_screen');
     searchController.clear();
   }
 

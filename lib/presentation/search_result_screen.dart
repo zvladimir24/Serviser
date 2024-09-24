@@ -11,9 +11,6 @@ class SearchResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Places'),
-      ),
       body: BlocBuilder<SearchBloc, SearchBlocState>(
         builder: (context, state) {
           if (state is SearchBlocInProgress) {

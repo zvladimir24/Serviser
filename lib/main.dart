@@ -3,13 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
+import 'package:serviser/bloc/friends_bloc/friends_bloc.dart';
 import 'package:serviser/bloc/login_bloc/login_bloc.dart';
+import 'package:serviser/bloc/my_profile_bloc/my_profile_bloc.dart';
 import 'package:serviser/bloc/search_bloc/search_bloc.dart';
 import 'package:serviser/bloc/sign_out_bloc/sign_out_bloc.dart';
 import 'package:serviser/bloc/sign_up_bloc/sign_up_bloc.dart';
+import 'package:serviser/bloc/users_bloc/users_bloc.dart';
 import 'package:serviser/getIt/service_locator.dart';
 import 'package:serviser/presentation/home_screen.dart';
 import 'package:serviser/presentation/login_screen.dart';
+import 'package:serviser/presentation/my_profile_screen.dart';
 import 'package:serviser/presentation/search_result_screen.dart';
 import 'package:serviser/presentation/sign_up_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,6 +130,15 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => GetIt.instance<SearchBloc>(),
         ),
+        BlocProvider(
+          create: (context) => GetIt.instance<MyProfileBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => GetIt.instance<FriendsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => GetIt.instance<UsersBloc>(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -137,8 +150,9 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/sign_up': (context) => const SignUpScreen(),
           '/login': (context) => const LoginScreen(),
-          '/home_screen': (context) => const HomeScreen(),
+          '/home_screen': (context) => HomeScreen(),
           '/search_result_screen': (context) => const SearchResultScreen(),
+          '/my_profile_screen': (context) => const MyProfileScreen(),
         },
         initialRoute: widget.initialRoute,
       ),

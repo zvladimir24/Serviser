@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:serviser/bloc/login_bloc/login_bloc.dart';
 import 'package:serviser/bloc/login_bloc/login_bloc_event.dart';
 import 'package:serviser/bloc/login_bloc/login_bloc_state.dart';
+import 'package:serviser/presentation/home_screen.dart';
 import 'package:serviser/presentation/reset_password_screen.dart';
 
 import 'sign_up_screen.dart';
@@ -29,11 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
       body: BlocListener<LoginBloc, LoginBlocState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
@@ -44,7 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 showCloseIcon: true,
               ),
             );
-            Navigator.pushReplacementNamed(context, '/home_screen');
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+              (Route<dynamic> route) => false,
+            );
           } else if (state is LoginFail) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(

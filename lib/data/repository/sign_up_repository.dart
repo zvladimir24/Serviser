@@ -26,7 +26,7 @@ class SignUpRepository {
       final AuthResponse response = await supabaseClient.auth.signUp(
         email: email,
         password: password,
-        data: {'username': username, 'fullname': fullname},
+        data: {'username': username, 'full_name': fullname},
         emailRedirectTo: 'io.supabase.flutterquickstart://login-callback/',
       );
       await startEmailConfirmationProcess();

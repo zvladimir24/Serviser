@@ -22,10 +22,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-        automaticallyImplyLeading: false,
-      ),
       body: BlocListener<SignUpBloc, SignUpBlocState>(
         listener: (context, state) {
           if (state is SignUpSuccess) {

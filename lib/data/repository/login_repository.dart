@@ -8,15 +8,26 @@ class LoginRepository {
 
   Future<void> loginWithSupabase(String email, String password) async {
     try {
-      // ignore: unused_local_variable
       final AuthResponse response =
           await supabaseClient.auth.signInWithPassword(
         email: email,
         password: password,
       );
+      final user = response.user;
+
+      if (user != null && user.emailConfirmedAt != null) {
+        final username = user.userMetadata?['username'] ?? 'default_username';
+        final fullName = user.userMetadata?['full_name'] ?? 'default_fullname';
+
+        // Email confirmed, check if profile exists
+        await _checkAndCreateProfile(user.id, username, fullName, email);
+      } else {
+        debugPrint('Login failed or email not confirmed.');
+        throw Exception('Please confirm your email before logging in.');
+      }
     } catch (e) {
       debugPrint('Login Exception: $e');
-      rethrow; // Optionally rethrow or handle error further
+      rethrow;
     }
   }
 
@@ -42,7 +53,6 @@ class LoginRepository {
         throw Exception('Google Sign-In failed. Missing tokens.');
       }
 
-      // Supabase sign in using OAuth (for Android/iOS)
       await supabaseClient.auth.signInWithIdToken(
         provider: OAuthProvider.google,
         idToken: idToken,
@@ -63,6 +73,29 @@ class LoginRepository {
       );
     } catch (e) {
       throw Exception('Google OAuth Web Sign-In failed: $e');
+    }
+  }
+
+  Future<void> _checkAndCreateProfile(
+      String userId, String username, String fullname, String email) async {
+    try {
+      final List<dynamic> existingProfiles =
+          await supabaseClient.from('profiles').select().eq('id', userId);
+
+      if (existingProfiles.isEmpty) {
+        await supabaseClient.from('profiles').insert({
+          'id': userId,
+          'username': username,
+          'full_name': fullname,
+          'email': email,
+        });
+        debugPrint('Profile created successfully for $email');
+      } else {
+        debugPrint('Profile already exists for $email');
+      }
+    } catch (e) {
+      debugPrint('Profile creation/check Exception: $e');
+      throw Exception('Error checking/creating profile: $e');
     }
   }
 }
